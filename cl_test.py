@@ -2,6 +2,7 @@ from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain_community.llms import HuggingFaceHub, HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
+import pprint
 
 import os
 from dotenv import load_dotenv
@@ -21,10 +22,10 @@ llm_chain = LLMChain(prompt=prompt, llm=HuggingFaceEndpoint(repo_id="mistralai/M
 
 question = "Who is the best football team in the United Kingdom?"
 llm_result = llm_chain.invoke(question)
-print(llm_result)
-print(f"\n\nThe answer to the question {llm_result['question']}\n\nis\n\n{llm_result['text']}")
-
-
+# pprint.pprint(llm_result)
+# pprint.pprint(f"\n\nThe answer to the question {llm_result['question']}\n\nis\n\n{llm_result['text']}")
+#
+# input()
 from transformers import AutoTokenizer, pipeline, AutoModelForSeq2SeqLM, BartConfig
 
 model_id = 'google/flan-t5-base'# go for a smaller model if you dont have capacity on your GPU
@@ -39,11 +40,12 @@ pipe = pipeline(
 )
 
 local_llm = HuggingFacePipeline(pipeline=pipe)
-print(local_llm.invoke('What is the capital of Germany? '))
+pprint.pprint(local_llm.invoke('What is the capital of Germany? '))
 llm_chain = LLMChain(prompt=prompt,
                      llm=local_llm
                      )
+input()
 
 question = "What is the capital of England?"
 
-print(llm_chain.invoke(question))
+pprint.pprint(llm_chain.invoke(question))
